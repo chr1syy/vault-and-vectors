@@ -8,8 +8,9 @@ export const sharedPageComponents: SharedLayout = {
   afterBody: [],
   footer: Component.Footer({
     links: {
-      GitHub: "https://github.com/jackyzha0/quartz",
-      "Discord Community": "https://discord.gg/cRFFHYye7t",
+      GitHub: "https://github.com/chr1syy",
+      RSS: "https://blog.bleuel-it.de/index.xml",
+      Quartz: "https://quartz.jzhao.xyz/",
     },
   }),
 }
@@ -22,8 +23,16 @@ export const defaultContentPageLayout: PageLayout = {
       condition: (page) => page.fileData.slug !== "index",
     }),
     Component.ArticleTitle(),
-    Component.ContentMeta(),
-    Component.TagList(),
+    // The landing page is a list, not a post — a "1 min read" byline and a
+    // tag row under its title read as leftover chrome.
+    Component.ConditionalRender({
+      component: Component.ContentMeta(),
+      condition: (page) => page.fileData.slug !== "index",
+    }),
+    Component.ConditionalRender({
+      component: Component.TagList(),
+      condition: (page) => page.fileData.slug !== "index",
+    }),
   ],
   left: [
     Component.PageTitle(),
@@ -41,9 +50,24 @@ export const defaultContentPageLayout: PageLayout = {
     Component.Explorer(),
   ],
   right: [
-    Component.Graph(),
-    Component.DesktopOnly(Component.TableOfContents()),
-    Component.Backlinks(),
+    // Graph and backlinks are for a linked note garden. This is a linear blog
+    // with a handful of posts, so on the landing page they render as an almost
+    // empty box and an empty heading — worse than absent. Keep them on posts,
+    // where backlinks at least point home.
+    Component.ConditionalRender({
+      component: Component.Graph(),
+      condition: (page) => page.fileData.slug !== "index",
+    }),
+    Component.DesktopOnly(
+      Component.ConditionalRender({
+        component: Component.TableOfContents(),
+        condition: (page) => page.fileData.slug !== "index",
+      }),
+    ),
+    Component.ConditionalRender({
+      component: Component.Backlinks(),
+      condition: (page) => page.fileData.slug !== "index",
+    }),
   ],
 }
 

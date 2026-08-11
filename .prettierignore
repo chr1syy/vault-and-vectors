@@ -1,3 +1,8 @@
 public
 node_modules
 .quartz-cache
+
+# content/ wird aus dem Obsidian-Vault (Blog/posts/) gesynct — die Quelle
+# liegt dort, nicht hier. Prettier wuerde hier formatieren, was beim naechsten
+# blog-sync.sh wieder ueberschrieben wird.
+content

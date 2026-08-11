@@ -1,3 +1,177 @@
 @use "./base.scss";
+@use "./variables.scss" as *;
 
-// put your custom CSS here!
+/**
+ * Vault & Vectors — theme layer on top of Quartz's base.
+ *
+ * The palette lives in quartz.config.ts (warm paper + ink, indigo accent).
+ * This file only handles what a palette can't: rhythm, measure, and the few
+ * places where Quartz's defaults read like documentation instead of prose.
+ *
+ * Rule of thumb for anything added here: it should be about *reading*. If a
+ * change doesn't make a long post easier to sit with, it doesn't belong.
+ */
+
+// ---------------------------------------------------------------------------
+// Reading measure & rhythm
+// ---------------------------------------------------------------------------
+
+article {
+  // Quartz sets the column from $pageWidth (800px). At a serif body size that
+  // runs to ~95 characters per line — well past the 60-75 that keeps a reader
+  // from losing their place on the return sweep.
+  font-size: 1.05rem;
+  line-height: 1.7;
+
+  p,
+  ul,
+  ol,
+  blockquote {
+    max-width: 68ch;
+  }
+
+  // Paragraph spacing carries the rhythm; the base sheet is a little tight
+  // for serif text at this line-height.
+  p {
+    margin: 0 0 1.15em;
+  }
+
+  // Headings need clear space above and tight space below, so they bind to
+  // the text they introduce rather than floating between blocks.
+  h1,
+  h2,
+  h3,
+  h4 {
+    margin-top: 2.2em;
+    margin-bottom: 0.55em;
+    letter-spacing: -0.015em;
+  }
+
+  h1 {
+    margin-top: 1.6em;
+  }
+
+  // A hairline under h2 gives long posts a visible spine when skimming.
+  h2 {
+    padding-bottom: 0.25em;
+    border-bottom: 1px solid var(--lightgray);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Links
+// ---------------------------------------------------------------------------
+
+article a {
+  // An underline offset below the baseline keeps descenders legible; Quartz's
+  // default underline cuts straight through them.
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  text-decoration-color: color-mix(in srgb, var(--secondary) 40%, transparent);
+  transition:
+    text-decoration-color 0.15s ease,
+    color 0.15s ease;
+
+  &:hover {
+    text-decoration-color: var(--secondary);
+  }
+
+  // Internal links get a tinted chip in stock Quartz, which speckles a post
+  // that cross-references a lot. Same colour as external, no background.
+  &.internal {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Quotes, code, tables
+// ---------------------------------------------------------------------------
+
+article blockquote {
+  border-left: 3px solid var(--secondary);
+  padding-left: 1.1em;
+  margin-left: 0;
+  color: var(--darkgray);
+  font-style: normal; // the border already marks it; italic serif at length is tiring
+}
+
+article code {
+  font-size: 0.88em; // mono runs visually larger than serif at equal px
+  padding: 0.12em 0.35em;
+  border-radius: 3px;
+}
+
+article pre {
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  padding: 0.9rem 1rem;
+  line-height: 1.55;
+
+  & > code {
+    font-size: 0.85rem;
+    padding: 0;
+  }
+}
+
+article table {
+  font-size: 0.94rem;
+  border-collapse: collapse;
+
+  th {
+    font-family: var(--headerFont);
+    font-weight: $semiBoldWeight;
+    letter-spacing: 0.01em;
+  }
+
+  th,
+  td {
+    padding: 0.5em 0.7em;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Chrome: sidebar, title, footer
+// ---------------------------------------------------------------------------
+
+.page-title {
+  font-family: var(--headerFont);
+  font-weight: $boldWeight;
+  letter-spacing: -0.02em;
+}
+
+// The sidebar is navigation, not content — hold it back so the column wins.
+.sidebar {
+  font-size: 0.92rem;
+}
+
+footer {
+  border-top: 1px solid var(--lightgray);
+  padding-top: 1.5rem;
+  margin-top: 4rem;
+  font-size: 0.85rem;
+  color: var(--gray);
+
+  ul {
+    gap: 1rem;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Mobile
+// ---------------------------------------------------------------------------
+
+@media all and #{$mobile} {
+  article {
+    font-size: 1rem;
+    line-height: 1.65;
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      margin-top: 1.8em;
+    }
+  }
+}

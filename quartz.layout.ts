@@ -9,7 +9,8 @@ export const sharedPageComponents: SharedLayout = {
   footer: Component.Footer({
     links: {
       GitHub: "https://github.com/chr1syy",
-      RSS: "https://blog.bleuel-it.de/index.xml",
+      // Relativ, damit der Link vor und nach dem Domain-Umzug funktioniert.
+      RSS: "/index.xml",
       Quartz: "https://quartz.jzhao.xyz/",
     },
   }),
